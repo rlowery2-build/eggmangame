@@ -6,39 +6,57 @@ struct EggView: View {
 
     var body: some View {
         ZStack {
-            // Egg shape
+            // Egg shape — translucent glass body
             Ellipse()
                 .fill(
-                    LinearGradient(
-                        colors: [
-                            type.swiftUIColor,
-                            type.swiftUIColor.opacity(0.8)
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
+                    type.swiftUIColor.opacity(0.45)
                 )
                 .overlay {
-                    // Shine highlight
+                    // Glass edge refraction stroke
+                    Ellipse()
+                        .stroke(type.swiftUIColor.opacity(0.4), lineWidth: 1.5)
+                }
+                .overlay {
+                    // Inner shadow for depth
+                    Ellipse()
+                        .stroke(.black.opacity(0.08), lineWidth: 2)
+                        .padding(3)
+                }
+                .overlay {
+                    // Primary specular highlight
                     Ellipse()
                         .fill(
-                            LinearGradient(
-                                colors: [.white.opacity(0.6), .clear],
-                                startPoint: .topLeading,
-                                endPoint: .center
+                            RadialGradient(
+                                colors: [.white.opacity(0.7), .clear],
+                                center: .topLeading,
+                                startRadius: 0,
+                                endRadius: 40
                             )
                         )
-                        .scaleEffect(x: 0.6, y: 0.4)
+                        .scaleEffect(x: 0.55, y: 0.4)
                         .offset(x: -8, y: -12)
                 }
                 .overlay {
-                    // Border
+                    // Secondary highlight spot for glass depth
                     Ellipse()
-                        .stroke(type.swiftUIColor.opacity(0.6), lineWidth: 2)
+                        .fill(
+                            RadialGradient(
+                                colors: [.white.opacity(0.35), .clear],
+                                center: UnitPoint(x: 0.7, y: 0.75),
+                                startRadius: 0,
+                                endRadius: 15
+                            )
+                        )
+                        .scaleEffect(x: 0.25, y: 0.2)
+                        .offset(x: 6, y: 10)
                 }
 
-            // Golden sparkle for golden eggs
+            // Golden glow + sparkle
             if type == .golden {
+                Ellipse()
+                    .fill(Color.yellow.opacity(0.15))
+                    .blur(radius: 8)
+
                 Image(systemName: "sparkle")
                     .font(.caption)
                     .foregroundStyle(.yellow)
@@ -46,8 +64,8 @@ struct EggView: View {
             }
         }
         .shadow(
-            color: .black.opacity(isDragging ? 0.3 : 0.15),
-            radius: isDragging ? 12 : 5,
+            color: type.swiftUIColor.opacity(isDragging ? 0.4 : 0.2),
+            radius: isDragging ? 12 : 6,
             y: isDragging ? 8 : 3
         )
         .scaleEffect(isDragging ? 1.2 : 1.0)

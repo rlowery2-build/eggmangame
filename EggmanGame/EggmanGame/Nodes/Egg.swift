@@ -13,16 +13,32 @@ class Egg: SKNode {
 
         let path = Egg.createEggPath(size: Egg.size)
         eggShape = SKShapeNode(path: path)
-        eggShape.fillColor = type.color
-        eggShape.strokeColor = SKColor.darkGray
-        eggShape.lineWidth = 2
+        eggShape.fillColor = type.color.withAlphaComponent(0.45)
+        eggShape.strokeColor = type.color.withAlphaComponent(0.6)
+        eggShape.lineWidth = 1.5
+        eggShape.glowWidth = 1.0
 
         super.init()
 
         addChild(eggShape)
 
+        // Primary specular highlight (glass refraction)
+        let highlightPath = Egg.createEggPath(size: CGSize(width: Egg.size.width * 0.5, height: Egg.size.height * 0.35))
+        let highlight = SKShapeNode(path: highlightPath)
+        highlight.fillColor = SKColor(white: 1.0, alpha: 0.3)
+        highlight.strokeColor = .clear
+        highlight.position = CGPoint(x: -6, y: 10)
+        addChild(highlight)
+
+        // Secondary smaller highlight for depth
+        let secondaryHighlight = SKShapeNode(circleOfRadius: 5)
+        secondaryHighlight.fillColor = SKColor(white: 1.0, alpha: 0.2)
+        secondaryHighlight.strokeColor = .clear
+        secondaryHighlight.position = CGPoint(x: 6, y: -8)
+        addChild(secondaryHighlight)
+
         if type == .spotted, let spotColor = type.spotColor {
-            addSpots(color: spotColor)
+            addSpots(color: spotColor.withAlphaComponent(0.6))
         }
 
         isUserInteractionEnabled = false

@@ -38,11 +38,26 @@ class SlimeEnemy: SKNode {
         // Slime body (blob shape)
         let bodyPath = createSlimePath(width: 40, height: 30)
         bodyNode = SKShapeNode(path: bodyPath)
-        bodyNode.fillColor = SKColor(red: 0.3, green: 0.8, blue: 0.3, alpha: 0.9)
-        bodyNode.strokeColor = SKColor(red: 0.2, green: 0.6, blue: 0.2, alpha: 1.0)
-        bodyNode.lineWidth = 2
+        bodyNode.fillColor = SKColor(red: 0.3, green: 0.8, blue: 0.3, alpha: 0.35)
+        bodyNode.strokeColor = SKColor(red: 0.4, green: 0.9, blue: 0.4, alpha: 0.5)
+        bodyNode.lineWidth = 1.5
+        bodyNode.glowWidth = 2.0
         bodyNode.position = CGPoint(x: 0, y: 15)
         addChild(bodyNode)
+
+        // Glass inner highlight (refraction)
+        let slimeHighlight = SKShapeNode(circleOfRadius: 8)
+        slimeHighlight.fillColor = SKColor(white: 1.0, alpha: 0.3)
+        slimeHighlight.strokeColor = .clear
+        slimeHighlight.position = CGPoint(x: -5, y: 24)
+        addChild(slimeHighlight)
+
+        // Darker bottom shadow for gel pooling effect
+        let bottomShadow = SKShapeNode(ellipseOf: CGSize(width: 30, height: 8))
+        bottomShadow.fillColor = SKColor(red: 0.1, green: 0.4, blue: 0.1, alpha: 0.25)
+        bottomShadow.strokeColor = .clear
+        bottomShadow.position = CGPoint(x: 0, y: 2)
+        addChild(bottomShadow)
 
         // Eyes
         leftEyeNode = SKShapeNode(circleOfRadius: 4)

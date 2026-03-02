@@ -31,9 +31,10 @@ class EggMan: SKNode {
 
     override init() {
         bodyNode = SKShapeNode(ellipseOf: bodySize)
-        bodyNode.fillColor = SKColor(red: 0.85, green: 0.85, blue: 0.8, alpha: 1.0)
-        bodyNode.strokeColor = SKColor.darkGray
-        bodyNode.lineWidth = 3
+        bodyNode.fillColor = SKColor(red: 0.85, green: 0.85, blue: 0.8, alpha: 0.55)
+        bodyNode.strokeColor = SKColor(white: 1.0, alpha: 0.6)
+        bodyNode.lineWidth = 2
+        bodyNode.glowWidth = 1.5
 
         faceNode = SKNode()
         faceNode.position = CGPoint(x: 0, y: 20)
@@ -73,6 +74,14 @@ class EggMan: SKNode {
         super.init()
 
         addChild(bodyNode)
+
+        // Glass specular highlight
+        let bodyHighlight = SKShapeNode(ellipseOf: CGSize(width: bodySize.width * 0.5, height: bodySize.height * 0.35))
+        bodyHighlight.fillColor = SKColor(white: 1.0, alpha: 0.25)
+        bodyHighlight.strokeColor = .clear
+        bodyHighlight.position = CGPoint(x: -15, y: 30)
+        addChild(bodyHighlight)
+
         addChild(faceNode)
         faceNode.addChild(leftEye)
         faceNode.addChild(rightEye)
@@ -96,22 +105,22 @@ class EggMan: SKNode {
 
         switch currentState {
         case .idle:
-            bodyNode.fillColor = SKColor(red: 0.85, green: 0.85, blue: 0.8, alpha: 1.0)
+            bodyNode.fillColor = SKColor(red: 0.85, green: 0.85, blue: 0.8, alpha: 0.55)
             drawIdleMouth()
             setEyesNormal()
 
         case .mouthOpen:
-            bodyNode.fillColor = SKColor(red: 0.85, green: 0.85, blue: 0.8, alpha: 1.0)
+            bodyNode.fillColor = SKColor(red: 0.85, green: 0.85, blue: 0.8, alpha: 0.55)
             drawOpenMouth()
             setEyesExcited()
 
         case .eating:
-            bodyNode.fillColor = SKColor(red: 0.9, green: 0.9, blue: 0.85, alpha: 1.0)
+            bodyNode.fillColor = SKColor(red: 0.9, green: 0.9, blue: 0.85, alpha: 0.7)
             drawHappyMouth()
             setEyesHappy()
 
         case .sick:
-            bodyNode.fillColor = SKColor(red: 0.7, green: 0.85, blue: 0.7, alpha: 1.0)
+            bodyNode.fillColor = SKColor(red: 0.7, green: 0.85, blue: 0.7, alpha: 0.5)
             drawSickMouth()
             setEyesSick()
         }

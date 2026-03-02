@@ -59,11 +59,19 @@ class EggHero: SKNode {
         // Egg body (oval shape)
         let bodyPath = createEggPath(width: 40, height: 50)
         bodyNode = SKShapeNode(path: bodyPath)
-        bodyNode.fillColor = SKColor(red: 0.95, green: 0.92, blue: 0.85, alpha: 1.0)
-        bodyNode.strokeColor = SKColor(red: 0.7, green: 0.65, blue: 0.55, alpha: 1.0)
-        bodyNode.lineWidth = 2
+        bodyNode.fillColor = SKColor(red: 0.95, green: 0.92, blue: 0.85, alpha: 0.5)
+        bodyNode.strokeColor = SKColor(white: 1.0, alpha: 0.5)
+        bodyNode.lineWidth = 1.5
+        bodyNode.glowWidth = 1.0
         bodyNode.position = CGPoint(x: 0, y: 25)
         addChild(bodyNode)
+
+        // Glass specular highlight
+        let heroHighlight = SKShapeNode(ellipseOf: CGSize(width: 18, height: 14))
+        heroHighlight.fillColor = SKColor(white: 1.0, alpha: 0.3)
+        heroHighlight.strokeColor = .clear
+        heroHighlight.position = CGPoint(x: -6, y: 38)
+        addChild(heroHighlight)
 
         // Face container
         faceNode = SKNode()

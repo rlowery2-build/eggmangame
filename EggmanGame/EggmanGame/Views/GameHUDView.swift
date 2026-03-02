@@ -54,7 +54,7 @@ struct GameHUDView: View {
                         timeRemaining: gameManager.taskTimeRemaining
                     )
                     .padding(.horizontal)
-                    .padding(.top, 12)
+                    .padding(.top, 8)
                 }
 
                 Spacer()
@@ -92,34 +92,36 @@ struct ResourceDisplayBar: View {
     let eggs: Int
 
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 0) {
             // Diamond display
-            ResourceBadge(icon: "💎", value: diamonds)
+            HStack(spacing: 6) {
+                Image(systemName: "diamond.fill")
+                    .font(.subheadline)
+                    .foregroundStyle(.cyan)
+                Text("\(diamonds)")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .monospacedDigit()
+                    .foregroundStyle(.primary)
+            }
 
             Spacer()
 
             // Egg display
-            ResourceBadge(icon: "🥚", value: eggs)
+            HStack(spacing: 6) {
+                Image(systemName: "oval.fill")
+                    .font(.subheadline)
+                    .foregroundStyle(.orange)
+                Text("\(eggs)")
+                    .font(.headline)
+                    .fontWeight(.bold)
+                    .monospacedDigit()
+                    .foregroundStyle(.primary)
+            }
         }
-    }
-}
-
-struct ResourceBadge: View {
-    let icon: String
-    let value: Int
-
-    var body: some View {
-        HStack(spacing: 6) {
-            Text(icon)
-                .font(.title3)
-            Text("\(value)")
-                .font(.headline)
-                .fontWeight(.bold)
-                .monospacedDigit()
-        }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 10)
-        .liquidGlass(in: RoundedRectangle(cornerRadius: 16))
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .liquidGlass(in: RoundedRectangle(cornerRadius: 20))
     }
 }
 
@@ -134,6 +136,7 @@ struct TaskBannerView: View {
             Text("Task: \(task.descriptionText)")
                 .font(.subheadline)
                 .fontWeight(.semibold)
+                .foregroundStyle(.primary)
 
             HStack {
                 // Progress indicator
@@ -159,13 +162,14 @@ struct TaskBannerView: View {
                 }
 
                 // Reward
-                HStack(spacing: 2) {
-                    Text("💎")
-                        .font(.caption)
+                HStack(spacing: 4) {
+                    Image(systemName: "diamond.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.cyan)
                     Text("\(task.diamondReward)")
                         .font(.caption)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.yellow)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.primary)
                 }
             }
         }
